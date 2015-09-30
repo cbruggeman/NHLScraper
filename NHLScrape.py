@@ -27,13 +27,12 @@ def parseTOI(text):
         playerNumber, lastName, firstName=nameNum.groups()
         # Text to find name/number
         shifts=playerText.split("<tr")
+        shiftNumber=[]
+        shiftPeriod=[]
+        shiftStart=[]
+        shiftEnd=[]
         for shiftText in shifts[2:]:
-            shiftNumber=[]
-            shiftPeriod=[]
-            shiftStart=[]
-            shiftEnd=[]
             shiftData=re.findall(r'border">([\w :]+)',shiftText)
-
             # Break when hitting summaries
             if not shiftData or shiftData[0]=="Per": break
 
@@ -47,18 +46,18 @@ def parseTOI(text):
             # Convert to TimeData
             shiftStart.append(convertTime(shiftData[2],period))
             shiftEnd.append(convertTime(shiftData[3],period))
-
-    playerDf=pd.DataFrame({ 'firstName': firstName,
-      'lastName': lastName,
-      'playerNumber': playerNumber,
-      'team': teamName,
-      'shiftNumber': shiftNumber,
-      'shiftPeriod': shiftPeriod,
-      'shiftStart': shiftStart,
-      'shiftEnd': shiftEnd,
-      'gameNumber': gameNumber,
-      'gameDate':gameDate})
-    dfList.append(playerDf)
+        
+        playerDf=pd.DataFrame({ 'firstName': firstName,
+          'lastName': lastName,
+          'playerNumber': playerNumber,
+          'team': teamName,
+          'shiftNumber': shiftNumber,
+          'shiftPeriod': shiftPeriod,
+          'shiftStart': shiftStart,
+          'shiftEnd': shiftEnd,
+          'gameNumber': gameNumber,
+          'gameDate':gameDate})
+        dfList.append(playerDf)
     return pd.concat(dfList)
 
 def parsePlayByPlay(text):
