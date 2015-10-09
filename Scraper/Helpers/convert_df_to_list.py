@@ -1,21 +1,22 @@
+from .shift_class import Shift
+
 def convert_shift_df_to_list(shift_df, home):
     if home:
-        home_away = 0
+        home_away = 'home_players'
     else:
-        home_away = 1
+        home_away = 'away_players'
 
 
     shift_df['playerName'] = shift_df['firstName']+' '+shift_df['lastName']
-
     grouped = shift_df.groupby('playerName')
     final_list = []
     for player, shifts in grouped:
         player_list = []
-        shift_starts = list(shifts['shiftStart'])
-        shift_ends = list(shifts['shiftEnd'])
-        for start, end in zip(shift_starts,shift_ends):
-            entry = [[],[],start,end]
-            entry[home_away].append(player)
+        for start, end in zip(shifts['shiftStart'],shifts['shiftEnd']):
+            entry = Shift()
+            entry.start = start
+            entry.end = end
+            setattr(entry,home_away,[player])
             player_list.append(entry)
         final_list.append(player_list)
 

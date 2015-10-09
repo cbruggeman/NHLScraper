@@ -64,10 +64,10 @@ def process_game(play_by_play_html,
     goalPP.to_csv('./../data/raw/%s/%04d/goals.csv'%(season_string,game_num))
 
 
-    gameDate=homeTeamTOI['gameDate'].values[0]
+    gameDate = homeTeamTOI['gameDate'].values[0]
 
-    homePlayers=homeTeamTOI['playerNumber'].unique()
-    awayPlayers=awayTeamTOI['playerNumber'].unique()
+    homePlayers = homeTeamTOI['playerNumber'].unique()
+    awayPlayers = awayTeamTOI['playerNumber'].unique()
 
     shift_data_list = reduce(merge_shift_data,convert_shift_df_to_list(homeTeamTOI,True)+
                                             convert_shift_df_to_list(awayTeamTOI,False))
@@ -80,9 +80,12 @@ def process_game(play_by_play_html,
     away_shots = sorted(list(shotPP.time[shotPP.team == awayTeam]) + list(goalPP.time[goalPP.team == awayTeam]))
     
     merged_shots = merge_shot_data(merged_cutoff, home_shots, away_shots)
-    final_list_class = map(shift_list_to_class, merged_shots)
+    for shift in merged_shots:
+        shift.home_number = len(shift.home_players)
+        shift.away_number = len(shift.away_players)
+    #final_list_class = map(add_number_on_ice, merged_shots)
 
-    df = create_final_shift_df(final_list_class)
+    df = create_final_shift_df(merged_shots)
     #  print list(df.columns)
     df.to_csv('./../data/filtered/%s/filtered%04d.csv'%(season_string,game_num))
 

@@ -2,7 +2,13 @@ import pandas as pd
 
 class Shift():
     def __init__(self):
-        pass
+        self.home_players = []
+        self.away_players = []
+        self.start = 0
+        self.end = 0
+        self.last_faceoff = 0
+        self.home_shots = 0
+        self.away_shots = 0
 
 def shift_list_to_class(shift_as_list):
     shift = Shift()

@@ -5,13 +5,13 @@ def shifts_after_faceoff_delay(shift_list, cutoff = 10):
     """
     filtered_list = []
     for shift in shift_list:
-        if shift[3]-shift[-1] <= cutoff:
+        if shift.end-shift.last_faceoff <= cutoff:
             continue
-        elif shift[2] > shift[-1]:
+        elif shift.start > shift.last_faceoff + cutoff:
             filtered_list.append(copy.deepcopy(shift))
         else:
             new_shift = copy.deepcopy(shift)
-            new_shift[2] = new_shift[-1] + cutoff
+            new_shift.start = new_shift.last_faceoff + cutoff
             filtered_list.append(new_shift)
     
     return filtered_list

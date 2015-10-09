@@ -1,3 +1,8 @@
 *.ipynb*
 FaceoffInsert1.py
 Untitled*
+*.html
+*.pyc
+*.csv
+data/*
+.DS_Store
