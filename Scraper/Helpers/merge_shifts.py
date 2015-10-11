@@ -17,7 +17,7 @@ def merge_shift_data(list_a,list_b):
     # Since shift data is a list of lists of lists, we take
     # a deep copy to avoid unexpected behaviour
     list_a = sorted(list_a, key = lambda x: x.start)
-    list_a = sorted(list_b, key = lambda x: x.start)
+    list_b = sorted(list_b, key = lambda x: x.start)
 
     a = 0
     b = 0
@@ -78,7 +78,7 @@ def merge_shift_data(list_a,list_b):
             if a_end < b_end:
                 combined_shift = Shift()
                 combined_shift.home_players = current_a.home_players + copy.deepcopy(current_b.home_players)
-                combined_shift.away_players = current_a.home_players + copy.deepcopy(current_b.away_players)
+                combined_shift.away_players = current_a.away_players + copy.deepcopy(current_b.away_players)
                 combined_shift.start = a_start
                 combined_shift.end = a_end
                 a +=1
@@ -88,7 +88,7 @@ def merge_shift_data(list_a,list_b):
                 
                 if a == La:
                     shift_list.append(current_b)
-                    shift_list.extend(shift_b[b+1:])
+                    shift_list.extend(list_b[b+1:])
                     break
 
                 current_a = list_a[a]
@@ -96,7 +96,7 @@ def merge_shift_data(list_a,list_b):
             elif b_end < a_end:
                 combined_shift = Shift()
                 combined_shift.home_players = copy.deepcopy(current_a.home_players) + copy.deepcopy(current_b.home_players)
-                combined_shift.away_players = copy.deepcopy(current_a.home_players) + copy.deepcopy(current_b.away_players)
+                combined_shift.away_players = copy.deepcopy(current_a.away_players) + copy.deepcopy(current_b.away_players)
                 combined_shift.start = a_start
                 combined_shift.end = b_end
                 b +=1
@@ -106,7 +106,7 @@ def merge_shift_data(list_a,list_b):
 
                 if b == Lb:
                     shift_list.append(current_a)
-                    shift_list.extend(shift_a[a+1:])
+                    shift_list.extend(list_a[a+1:])
                     break
 
                 current_b = list_b[b]
@@ -116,7 +116,7 @@ def merge_shift_data(list_a,list_b):
                 b += 1
                 combined_shift = Shift()
                 combined_shift.home_players = current_a.home_players + copy.deepcopy(current_b.home_players)
-                combined_shift.away_players = current_a.home_players + copy.deepcopy(current_b.away_players)
+                combined_shift.away_players = current_a.away_players + copy.deepcopy(current_b.away_players)
                 combined_shift.start = a_start
                 combined_shift.end = a_end
 
@@ -136,7 +136,24 @@ def merge_shift_data(list_a,list_b):
 
     return shift_list
 
-# sa=[[['bob','fred'],[],1,5],[['bob','sue'],['al'],5,10]]
-# sb=[[['sally','igor'],[],1,2],[['alex'],[],2,10]]
 
-# mergeShiftData(sa,sb)
+# s1 = Shift()
+# s1.home_players=['bob','fred']
+# s1.start = 1
+# s1.end = 5
+# s2 = Shift()
+# s2.home_players = ['bob','sue']
+# s2.away_players = ['al']
+# s2.start = 5
+# s2.end = 10
+# s3 = Shift()
+# s3.home_players = ['sally','igor']
+# s3.start = 1
+# s3.end = 2
+# s4 = Shift()
+# s4.home_players = ['alex']
+# s4.start = 4
+# s4.end = 10
+
+# sa = [s1,s2]
+# sb = [s3,s4]

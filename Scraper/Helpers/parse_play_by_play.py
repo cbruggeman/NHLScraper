@@ -58,7 +58,7 @@ def parse_play_by_play(text):
                     'team': goalTeamLst,
                     'shooter': goalScorerLst})
 
-    return (shotDf,faceoffDf,goalDf,awayTeam,homeTeam)
+    return (shotDf,faceoffDf,goalDf,homeShort,awayShort)
 
 def convertTime(time_string,period):
     """Converts the time from a string of the form MM:SS to a measurement in seconds.

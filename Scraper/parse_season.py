@@ -15,7 +15,7 @@ def make_dir(path):
 
 
 def process_season(season_start, faceoff_cutoff = 10):
-    num_games = 41 * 30
+    num_games = 41*30
     season_string = "{0}{1}".format(season_start,season_start+1)
     for game in range(1,num_games+1):
         in_file = open('./../data/html/%s/%04d/play_by_play.html'%(season_string,game), 'r')
@@ -53,7 +53,7 @@ def process_game(play_by_play_html,
                     save_raw_data = True):
     homeTeamTOI = parse_TOI(home_toi_html)
     awayTeamTOI = parse_TOI(away_toi_html)
-    shotPP,faceoffPP,goalPP,awayTeam,homeTeam = parse_play_by_play(play_by_play_html)
+    shotPP,faceoffPP,goalPP,homeTeam,awayTeam = parse_play_by_play(play_by_play_html)
 
     make_dir('./../data/raw/%s/%04d'%(season_string,game_num))
 
@@ -69,6 +69,8 @@ def process_game(play_by_play_html,
     homePlayers = homeTeamTOI['playerNumber'].unique()
     awayPlayers = awayTeamTOI['playerNumber'].unique()
 
+
+
     shift_data_list = reduce(merge_shift_data,convert_shift_df_to_list(homeTeamTOI,True)+
                                             convert_shift_df_to_list(awayTeamTOI,False))
     
@@ -81,6 +83,7 @@ def process_game(play_by_play_html,
     
     home_shots = sorted(list(shotPP.time[shotPP.team == homeTeam]) + list(goalPP.time[goalPP.team == homeTeam]))
     away_shots = sorted(list(shotPP.time[shotPP.team == awayTeam]) + list(goalPP.time[goalPP.team == awayTeam]))
+
     
     merged_shots = merge_shot_data(merged_cutoff, home_shots, away_shots)
     for shift in merged_shots:
