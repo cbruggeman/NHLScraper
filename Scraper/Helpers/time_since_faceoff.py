@@ -17,7 +17,10 @@ def time_since_faceoff(shift_data, faceoff_times):
     shift = copy.deepcopy(shift_data[0])
     faceoff_num = 0
     faceoff = faceoff_times[0]
-    next_faceoff = faceoff_times[1]
+    try:
+        next_faceoff = faceoff_times[1]
+    except IndexError:
+        return []
 
 
     while True:
@@ -26,7 +29,7 @@ def time_since_faceoff(shift_data, faceoff_times):
             shift_num += 1
             if shift_num == total_shifts:
                 break
-            shift = copy.deepycopy(shift_data[shift_num])
+            shift = copy.deepcopy(shift_data[shift_num])
 
         elif faceoff <= shift.start:
 

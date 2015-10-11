@@ -15,7 +15,7 @@ def make_dir(path):
 
 
 def process_season(season_start, faceoff_cutoff = 10):
-    num_games = 3
+    num_games = 41 * 30
     season_string = "{0}{1}".format(season_start,season_start+1)
     for game in range(1,num_games+1):
         in_file = open('./../data/html/%s/%04d/play_by_play.html'%(season_string,game), 'r')
@@ -75,6 +75,9 @@ def process_game(play_by_play_html,
     faceoff_times = list(faceoffPP.time)
     merged_faceoffs = time_since_faceoff(shift_data_list, faceoff_times)
     merged_cutoff = shifts_after_faceoff_delay(merged_faceoffs, faceoff_cutoff)
+
+    if len(merged_cutoff) == 0:
+        return None
     
     home_shots = sorted(list(shotPP.time[shotPP.team == homeTeam]) + list(goalPP.time[goalPP.team == homeTeam]))
     away_shots = sorted(list(shotPP.time[shotPP.team == awayTeam]) + list(goalPP.time[goalPP.team == awayTeam]))

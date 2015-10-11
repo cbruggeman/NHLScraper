@@ -60,7 +60,12 @@ def parse_play_by_play(text):
 
     return (shotDf,faceoffDf,goalDf,awayTeam,homeTeam)
 
-def convertTime(timeString,period):
-    timeString=timeString.strip()
-    time=60*int(timeString.split(":")[0])+int(timeString.split(":")[1])
+def convertTime(time_string,period):
+    """Converts the time from a string of the form MM:SS to a measurement in seconds.
+    Removes non-numeric characters to catch typos in the game-log. Adds on 20 minutes
+    for each period of play.
+    """
+    time_string = time_string.strip()
+    minutes, seconds = map(lambda x: int(re.sub('[^\d]','',x)), time_string.split(':'))
+    time=60*minutes+seconds
     return time + 20*60*max(0,period-1)
